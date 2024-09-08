@@ -274,3 +274,13 @@ Agenciabancaria *remove_conta(Agenciabancaria *agencia, int numero)
     agencia->contas = lista_remove(agencia->contas, numero);
     return agencia;
 }
+
+
+void liberar_agencia(Agenciabancaria *agencia)
+{
+    if (agencia == NULL)
+        return;
+
+    liberar_lista_contas(agencia->contas);
+    free(agencia);
+}
