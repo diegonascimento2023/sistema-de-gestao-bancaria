@@ -70,3 +70,12 @@ Lista *lista_insere_ordena(Lista *k, Contabancaria *conta)
     }
     return k;
 }
+
+
+Agenciabancaria *cadastrar_cliente(Contabancaria *contabancaria, Agenciabancaria *agenciabancaria)
+{
+
+    agenciabancaria->contas = lista_insere_ordena(agenciabancaria->contas, contabancaria);
+
+    return agenciabancaria;
+}
