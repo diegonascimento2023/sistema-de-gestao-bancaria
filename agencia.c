@@ -44,3 +44,29 @@ int comparaContas(const char *conta1, const char *conta2) {
 
     return tolower(*conta1) - tolower(*conta2);
 }
+
+
+Lista *lista_insere_ordena(Lista *k, Contabancaria *conta)
+{
+    Lista *novo;
+    Lista *ant = NULL;
+    Lista *p = k;
+    while (p != NULL && comparaContas(p->conta->cliente, conta->cliente) < 0)
+    {
+        ant = p;
+        p = p->prox;
+    }
+    novo = (Lista *)malloc(sizeof(Lista));
+    novo->conta = conta;
+    if (ant == NULL)
+    {
+        novo->prox = k;
+        k = novo;
+    }
+    else
+    {
+        novo->prox = ant->prox;
+        ant->prox = novo;
+    }
+    return k;
+}
