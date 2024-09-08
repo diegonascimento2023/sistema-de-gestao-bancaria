@@ -284,3 +284,13 @@ void liberar_agencia(Agenciabancaria *agencia)
     liberar_lista_contas(agencia->contas);
     free(agencia);
 }
+
+
+void liberar_agencias(Agenciabancaria **agencias, int qnt)
+{
+    for (int i = 0; i < qnt; i++)
+    {
+        liberar_agencia(agencias[i]);
+    }
+    free(agencias);
+}
