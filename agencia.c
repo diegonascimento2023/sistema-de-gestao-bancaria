@@ -317,3 +317,84 @@ void salva_arquivo(Agenciabancaria **agencias, int qntdagencias)
     }
     fclose(arquivo);
 }
+
+
+Agenciabancaria **ler_arquivo(Agenciabancaria **agencias, int *qntd)
+{
+    FILE *arquivo;
+    int i = 0;
+    char linha[200];
+    char *token;
+    Contabancaria aux;
+
+    arquivo = fopen("dados.txt", "r");
+    if (arquivo == NULL)
+    {
+        printf("Erro ao inicializar arquivo.\n");
+        exit(1);
+    }
+    while (fgets(linha, sizeof(linha), arquivo) != NULL)
+    {
+        char *test = strstr(linha, "Agencia");
+        if (test != NULL)
+        {
+            if (i >= *qntd)
+            {
+                agencias = realloc(agencias, (*qntd + 1) * sizeof(Agenciabancaria *));
+                if (agencias == NULL)
+                {
+                    printf("Erro ao alocar memoria \n");
+                    exit(1);
+                }
+                agencias[*qntd] = malloc(sizeof(Agenciabancaria));
+                if (agencias[*qntd] == NULL)
+                {
+                    printf("Erro ao alocar memoria \n");
+                    exit(1);
+                }
+                (*qntd)++;
+            }
+            token = strtok(linha, ":");
+            token = strtok(NULL, "\t");
+            strcpy(agencias[i]->nome, token);
+            token = strtok(NULL, ":");
+            token = strtok(NULL, "\t");
+            agencias[i]->codigo = atoi(token);
+            token = strtok(NULL, ":");
+            token = strtok(NULL, "\t");
+            strcpy(agencias[i]->localizacao, token);
+            token = strtok(NULL, ":");
+            token = strtok(NULL, "\n");
+            strcpy(agencias[i]->horario, token);
+            i++;
+        }
+
+        else
+        {
+            token = strtok(linha, ":");
+            token = strtok(NULL, "\t");
+            strcpy(aux.cliente, token);
+            token = strtok(NULL, ":");
+            token = strtok(NULL, "\t");
+            strcpy(aux.data, token);
+            token = strtok(NULL, ":");
+            token = strtok(NULL, "\t");
+            aux.saldo = atof(token);
+            token = strtok(NULL, ":");
+            token = strtok(NULL, "\t");
+            strcpy(aux.status, token);
+            token = strtok(NULL, ":");
+            token = strtok(NULL, "\n");
+            aux.numero = atoi(token);
+            if (agencias[i - 1] == NULL)
+            {
+                printf("Erro \n");
+                exit(1);
+            }
+            Contabancaria *conta = criar_conta(aux.cliente, aux.data, aux.saldo, aux.status, aux.numero);
+            agencias[i - 1] = cadastrar_cliente(conta, agencias[i - 1]);
+        }
+    }
+    fclose(arquivo);
+    return agencias;
+}
