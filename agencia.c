@@ -27,3 +27,20 @@ Agenciabancaria *criar_agencia(char *nome, int codigo, char *localizacao, char *
 
     return criar_agencia;
 }
+
+
+int comparaContas(const char *conta1, const char *conta2) {
+    while (*conta1 && *conta2) {
+        char c1 = tolower(*conta1);
+        char c2 = tolower(*conta2);
+
+        if (c1 != c2) {
+            return c1 - c2;
+        }
+
+        conta1++;
+        conta2++;
+    }
+
+    return tolower(*conta1) - tolower(*conta2);
+}
