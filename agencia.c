@@ -262,3 +262,15 @@ void listar_agencias(Agenciabancaria **agencias, int qntagencias)
         }
     }
 }
+
+
+Agenciabancaria *remove_conta(Agenciabancaria *agencia, int numero)
+{
+
+    if (agencia->contas == NULL)
+    {
+        return agencia;
+    }
+    agencia->contas = lista_remove(agencia->contas, numero);
+    return agencia;
+}
