@@ -294,3 +294,26 @@ void liberar_agencias(Agenciabancaria **agencias, int qnt)
     }
     free(agencias);
 }
+
+
+void salva_arquivo(Agenciabancaria **agencias, int qntdagencias)
+{
+    FILE *arquivo = fopen("dados.txt", "w");
+    if (arquivo == NULL)
+    {
+        printf("Erro ao abrir o arquivo para escrira \n");
+    }
+    for (int i = 0; i < qntdagencias; i++)
+    {
+        Agenciabancaria *agencia = agencias[i];
+        fprintf(arquivo, "Agencia %d\tNome:%s\tCodigo:%d\tLocalizacao:%s\tHorario:%s\n", i + 1, agencia->nome, agencia->codigo, agencia->localizacao, agencia->horario);
+        Lista *contas = agencia->contas;
+        while (contas != NULL)
+        {
+            Contabancaria *conta = contas->conta;
+            fprintf(arquivo, "Cliente:%s\tData:%s\tSaldo:%.2f\tStatus:%s\tNumero:%d\n", conta->cliente, conta->data, conta->saldo, conta->status, conta->numero);
+            contas = contas->prox;
+        }
+    }
+    fclose(arquivo);
+}
