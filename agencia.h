@@ -1,36 +1,27 @@
-typedef struct agenciabancaria Agenciabancaria;
+#ifndef AGENCIA_H
+#define AGENCIA_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "contaBancaria.h"
 
+typedef struct Agencia {
+    int codigo;
+    char nome[51];
+    char localizacao[101];
+    char horario[20];
+    ContaBancaria *contas; // Raiz da árvore AVL de contas
+    struct Agencia *esquerda;
+    struct Agencia *direita;
+} Agencia;
 
-//funcao para criar agencia bancaria
-Agenciabancaria *criar_agencia(char *nome, int codigo, char *localizacao, char *horario);
+Agencia *criar_agencia(int codigo, const char *nome, const char *localizacao, const char *horario);
+void inserir_agencia(Agencia **raiz, Agencia *novaAgencia);
+Agencia *buscar_agencia(Agencia *raiz, int codigo);
+void listar_agencias(Agencia *raiz);
+void salvar_agencias(Agencia *raiz, FILE *file);
+Agencia *ler_agencias(FILE *file);
+void liberar_agencias(Agencia *raiz);
 
-// Funcao para comparar duas strings, ignorando a diferenciaÃ§Ã£o entre maiÃºsculas e minÃºsculas.
-int comparaContas(const char *conta1, const char *conta2);
-
-//funcao para lista em ordem
-Lista *lista_insere_ordena(Lista *k, Contabancaria *conta);
-
-// funcao para cadastrar cliente
-Agenciabancaria *cadastrar_cliente(Contabancaria *contabancaria, Agenciabancaria *agenciabancaria);
-
-// Cadastrar conta nas agencias 
-Agenciabancaria *cadastrar_conta(Agenciabancaria *agencia);
-
-// funcao para listar agencias
-void listar_agencias(Agenciabancaria **agencias, int qtdagencias);
-
-// funcao para salvar arquivo
-void salvar_arquivo(Agenciabancaria **agencias, int qtdagencias);
-
-// funcao para abrir arquivo salvo
-Agenciabancaria **ler_arquivo(Agenciabancaria **agencias, int *qnta);
-
-// funcao para remover conta
-Agenciabancaria *remove_conta(Agenciabancaria *agencia, int numero);
-
-// funcao para liberar memoria 
-void liberar_agencia(Agenciabancaria *agencia);
-
-// funcao para liberar memoria
-void liberar_agencias(Agenciabancaria **agencias, int qnta);
+#endif // AGENCIA_H
